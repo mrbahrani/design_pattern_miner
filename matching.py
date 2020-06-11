@@ -1,9 +1,10 @@
-import networkx
+import networkx as nx
 from networkx.algorithms import isomorphism
 class DesignPatternMatcher:
     def __init__(self,modulde_graph=nx.DiGraph(), design_patterns= dict()):
         self.design_patterns = design_patterns
         self.graph = modulde_graph
+        self.match_result = None
 
     def set_graph(self, graph):
         self.graph = graph
@@ -19,7 +20,12 @@ class DesignPatternMatcher:
         return list(isomorphism.DiGraphMatcher(graph, design_pattern))
 
     def match_all(self):
-        match_result = {name: None for name in self.design_patterns.keys()}
+        self.match_result = {name: None for name in self.design_patterns.keys()}
         for d_p in self.design_patterns:
-            match_result[d_p] = DesignPatternMatcher.match(self.graph, self.design_patterns[d_p])
-        return match_result
+            self.match_result[d_p] = DesignPatternMatcher.match(self.graph, self.design_patterns[d_p])
+        return self.match_result
+
+    def get_quality_value(self):
+        all_classes = (self.graph.nodes)
+        classes_used_in_design_pattern = 0
+        return classes_used_in_design_pattern / all_classes
