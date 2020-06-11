@@ -6,6 +6,9 @@ mediator_pattern.add_nodes_from([ (1, 2, {'type': "as"}), (3, 2, {'type': "as"})
 state_pattern = DiGraph()
 state_pattern.add_nodes_from([ (1, 2, {'type': "as"}), (3, 2, {'type': "ge"}) ])
 
+proxy_pattern = DiGraph()
+proxy_pattern.add_nodes_from([ (2, 1, {'type': "ge"}), (3, 1, {'type': "ge"}), (2, 3, {'type': "as"}) ])
+
 
 design_patterns = dict()
 
