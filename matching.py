@@ -17,7 +17,8 @@ class DesignPatternMatcher:
 
     @classmethod
     def match(cls, graph, design_pattern):
-        return list(isomorphism.DiGraphMatcher(graph, design_pattern))
+        dgm = isomorphism.DiGraphMatcher(graph, design_pattern)
+        return list(dgm.subgraph_isomorphisms_iter())
 
     def match_all(self):
         self.match_result = {name: None for name in self.design_patterns.keys()}
@@ -26,6 +27,10 @@ class DesignPatternMatcher:
         return self.match_result
 
     def get_quality_value(self):
-        all_classes = (self.graph.nodes)
-        classes_used_in_design_pattern = 0
+        all_classes = len(self.graph.nodes)
+        values = list(self.match_result.values())
+        flatten = lambda l: [item for sublist in l for item in sublist]
+        values = flatten(values)
+        classes = list(map(lambda x: set(x.keys()), values))
+        classes_used_in_design_pattern = len(set().union(*classes))
         return classes_used_in_design_pattern / all_classes
